@@ -97,32 +97,41 @@ def get_7d_travel(espn_path):
 
 def evaluate_team(team, host_today, history):
     rec = history.get(team, {"venues": [], "last_dt": None})
-    venues = rec["venues"] + [host_today]
+    past_venues = rec["venues"]
+    full_path = past_venues + [host_today]
     
     miles = 0
     tz_shifts = 0
-    road_legs = 0
-    visited_cities = set()
     
-    for i in range(1, len(venues)):
-        p = STADIUMS.get(venues[i-1])
-        c = STADIUMS.get(venues[i])
-        if p and c:
-            leg_miles = calc_miles(p, c)
-            miles += leg_miles
-            tz_shifts += abs(c[2] - p[2])
-            if leg_miles > 50:
-                road_legs += 1
-                visited_cities.add(venues[i-1])
-                visited_cities.add(venues[i])
+    for i in range(1, len(full_path)):
+        p_coord = STADIUMS.get(full_path[i-1])
+        c_coord = STADIUMS.get(full_path[i])
+        if p_coord and c_coord:
+            d = calc_miles(p_coord, c_coord)
+            miles += d
+            tz_shifts += abs(c_coord[2] - p_coord[2])
 
-    total_commutes = max(1, road_legs, len(visited_cities) - 1)
+    # Count consecutive road trip legs working backwards from tonight
+    current_road_legs = 0
+    is_home_game = (host_today == team)
+    
+    if is_home_game:
+        current_road_legs = 0
+    else:
+        current_road_legs = 1
+        for i in range(len(full_path) - 2, -1, -1):
+            stopped_venue = full_path[i]
+            if stopped_venue == team:
+                break # Trip started from home
+            else:
+                current_road_legs += 1
+
     home_days = 4
     if rec["last_dt"]:
         home_days = max(1, (datetime.now(timezone.utc) - rec["last_dt"]).days)
 
-    fatigue = min(100, round((miles / 40.0) + (tz_shifts * 12) + (total_commutes * 15)))
-    return fatigue, round(miles), total_commutes, home_days
+    fatigue = min(100, round((miles / 40.0) + (tz_shifts * 12) + (current_road_legs * 15)))
+    return fatigue, round(miles), current_road_legs, home_days
 
 def run():
     results = []
@@ -151,7 +160,7 @@ def run():
                     results.append({
                         "sport": cfg["cat"],
                         "matchup": f"✈️ {away} ({'+' if away_ml > 0 else ''}{away_ml}) @ 😊 {home} ({'+' if home_ml > 0 else ''}{home_ml})",
-                        "routeNote": f"Road trip across {away_commutes + 1} different stops",
+                        "routeNote": f"Road trip across {away_commutes} stops away from home",
                         "miles": away_mi,
                         "legs": away_commutes,
                         "restSummary": f"{home_stay_days} days home resting",
@@ -166,3 +175,4 @@ def run():
 
 if __name__ == "__main__":
     run()
+    
