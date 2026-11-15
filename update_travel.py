@@ -102,6 +102,7 @@ def evaluate_team(team, host_today, history):
     miles = 0
     tz_shifts = 0
     road_legs = 0
+    visited_cities = set()
     
     for i in range(1, len(venues)):
         p = STADIUMS.get(venues[i-1])
@@ -112,8 +113,10 @@ def evaluate_team(team, host_today, history):
             tz_shifts += abs(c[2] - p[2])
             if leg_miles > 50:
                 road_legs += 1
+                visited_cities.add(venues[i-1])
+                visited_cities.add(venues[i])
 
-    total_commutes = max(1, road_legs)
+    total_commutes = max(1, road_legs, len(visited_cities) - 1)
     home_days = 4
     if rec["last_dt"]:
         home_days = max(1, (datetime.now(timezone.utc) - rec["last_dt"]).days)
@@ -163,4 +166,3 @@ def run():
 
 if __name__ == "__main__":
     run()
-    
