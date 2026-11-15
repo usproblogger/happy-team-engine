@@ -1,0 +1,39 @@
+name: Twice Daily Happy Team Refresh
+
+on:
+  schedule:
+    # Runs at 9:00 AM CST (15:00 UTC) and 5:00 PM CST (23:00 UTC)
+    - cron: '0 15,23 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-travel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+
+      - name: Install requests
+        run: pip install requests
+
+      - name: Run Travel Engine
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: python update_travel.py
+
+      - name: Save travel_data.json
+        run: |
+          git config --global user.name "TravelBot"
+          git config --global user.email "bot@users.noreply.github.com"
+          git add travel_data.json
+          git commit -m "Auto-update Happy Team feed [skip ci]" || exit 0
+          git push
+          
