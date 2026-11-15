@@ -145,15 +145,13 @@ def run():
                 gap = away_fat - home_fat
 
                 if gap >= 20 and home_fat <= 25:
-                    commute_label = f"Commuted {away_commutes} {'time' if away_commutes == 1 else 'times'}"
-                    route_desc = f"{commute_label} ({away_mi:,} mi total) vs {home_stay_days} days home"
-
                     results.append({
                         "sport": cfg["cat"],
                         "matchup": f"✈️ {away} ({'+' if away_ml > 0 else ''}{away_ml}) @ 😊 {home} ({'+' if home_ml > 0 else ''}{home_ml})",
                         "routeNote": f"Road trip across {away_commutes + 1} different stops",
                         "miles": away_mi,
-                        "restSummary": route_desc,
+                        "legs": away_commutes,
+                        "restSummary": f"{home_stay_days} days home resting",
                         "exhaustionGap": gap,
                         "happyML": home_ml
                     })
@@ -165,3 +163,4 @@ def run():
 
 if __name__ == "__main__":
     run()
+    
