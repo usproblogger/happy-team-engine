@@ -101,26 +101,25 @@ def evaluate_team(team, host_today, history):
     
     miles = 0
     tz_shifts = 0
-    road_legs = 0  # Counts how many times they commuted/moved between different cities away from home
+    road_legs = 0
     
     for i in range(1, len(venues)):
-        p, c = STADIUMS.get(venues[i-1]), STADIUMS.get(venues[i])
+        p = STADIUMS.get(venues[i-1])
+        c = STADIUMS.get(venues[i])
         if p and c:
             leg_miles = calc_miles(p, c)
             miles += leg_miles
             tz_shifts += abs(c[2] - p[2])
-            # If they traveled to a new away city during this 7-day window, count it as a commute/leg
             if leg_miles > 50:
                 road_legs += 1
 
-    commute_count = max(1, road_legs)
+    total_commutes = max(1, road_legs)
     home_days = 4
     if rec["last_dt"]:
         home_days = max(1, (datetime.now(timezone.utc) - rec["last_dt"]).days)
 
-    # Fatigue heavily penalizes multi-city swings (commuting 2 or 3 times)
-    fatigue = min(100, round((miles / 40.0) + (tz_shifts * 12) + (commute_count * 15)))
-    return fatigue, round(miles), commute_count, home_days
+    fatigue = min(100, round((miles / 40.0) + (tz_shifts * 12) + (total_commutes * 15)))
+    return fatigue, round(miles), total_commutes, home_days
 
 def run():
     results = []
@@ -146,7 +145,6 @@ def run():
                 gap = away_fat - home_fat
 
                 if gap >= 20 and home_fat <= 25:
-                    # Format Alex's exact vision: "Commuted 2 times (Multi-city trip) vs 5 days home"
                     commute_label = f"Commuted {away_commutes} {'time' if away_commutes == 1 else 'times'}"
                     route_desc = f"{commute_label} ({away_mi:,} mi total) vs {home_stay_days} days home"
 
@@ -167,4 +165,3 @@ def run():
 
 if __name__ == "__main__":
     run()
-    
