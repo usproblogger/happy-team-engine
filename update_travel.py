@@ -98,18 +98,29 @@ def get_7d_travel(espn_path):
 def evaluate_team(team, host_today, history):
     rec = history.get(team, {"venues": [], "last_dt": None})
     venues = rec["venues"] + [host_today]
-    miles, tz_shifts = 0, 0
+    
+    miles = 0
+    tz_shifts = 0
+    road_legs = 0  # Counts how many times they commuted/moved between different cities away from home
+    
     for i in range(1, len(venues)):
         p, c = STADIUMS.get(venues[i-1]), STADIUMS.get(venues[i])
         if p and c:
-            miles += calc_miles(p, c)
+            leg_miles = calc_miles(p, c)
+            miles += leg_miles
             tz_shifts += abs(c[2] - p[2])
-    days_rest = 3
+            # If they traveled to a new away city during this 7-day window, count it as a commute/leg
+            if leg_miles > 50:
+                road_legs += 1
+
+    commute_count = max(1, road_legs)
+    home_days = 4
     if rec["last_dt"]:
-        days_rest = max(0, (datetime.now(timezone.utc) - rec["last_dt"]).days - 1)
-    rest_pen = 25 if days_rest == 0 else (12 if days_rest == 1 else 0)
-    fatigue = min(100, round((miles / 50.0) + (tz_shifts * 10) + rest_pen))
-    return fatigue, round(miles), days_rest
+        home_days = max(1, (datetime.now(timezone.utc) - rec["last_dt"]).days)
+
+    # Fatigue heavily penalizes multi-city swings (commuting 2 or 3 times)
+    fatigue = min(100, round((miles / 40.0) + (tz_shifts * 12) + (commute_count * 15)))
+    return fatigue, round(miles), commute_count, home_days
 
 def run():
     results = []
@@ -130,17 +141,21 @@ def run():
                 ml_map = {o["name"]: o["price"] for o in outcomes}
                 home_ml, away_ml = ml_map.get(home, -110), ml_map.get(away, -110)
 
-                away_fat, away_mi, away_rest = evaluate_team(away, home, travel_map)
-                home_fat, home_mi, home_rest = evaluate_team(home, home, travel_map)
+                away_fat, away_mi, away_commutes, _ = evaluate_team(away, home, travel_map)
+                home_fat, _, _, home_stay_days = evaluate_team(home, home, travel_map)
                 gap = away_fat - home_fat
 
                 if gap >= 20 and home_fat <= 25:
+                    # Format Alex's exact vision: "Commuted 2 times (Multi-city trip) vs 5 days home"
+                    commute_label = f"Commuted {away_commutes} {'time' if away_commutes == 1 else 'times'}"
+                    route_desc = f"{commute_label} ({away_mi:,} mi total) vs {home_stay_days} days home"
+
                     results.append({
                         "sport": cfg["cat"],
                         "matchup": f"✈️ {away} ({'+' if away_ml > 0 else ''}{away_ml}) @ 😊 {home} ({'+' if home_ml > 0 else ''}{home_ml})",
-                        "routeNote": f"{away_mi:,} mi road trip ({away_rest}d rest vs. {home_rest}d home)",
+                        "routeNote": f"Road trip across {away_commutes + 1} different stops",
                         "miles": away_mi,
-                        "restSummary": f"{away_rest}d rest vs. {home_rest}d home",
+                        "restSummary": route_desc,
                         "exhaustionGap": gap,
                         "happyML": home_ml
                     })
@@ -152,3 +167,4 @@ def run():
 
 if __name__ == "__main__":
     run()
+    
