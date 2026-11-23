@@ -1,152 +1,142 @@
 [
   {
     "sport": "basketball",
-    "matchup": "\u2708\ufe0f Oklahoma City Thunder (+210) @ \ud83d\ude0a Miami Heat (-280)",
+    "matchup": "\u2708\ufe0f Brooklyn Nets (+440) @ \ud83d\ude0a Minnesota Timberwolves (-590)",
     "routeNote": "Road trip across 1 stops away from home",
-    "miles": 2562,
+    "miles": 1019,
     "legs": 1,
-    "restSummary": "4 days home resting",
-    "exhaustionGap": 100,
-    "happyML": -280
+    "restSummary": "2 days home resting",
+    "exhaustionGap": 52,
+    "happyML": -590
   },
   {
-    "sport": "hockey",
-    "matchup": "\u2708\ufe0f Buffalo Sabres (-345) @ \ud83d\ude0a Tampa Bay Lightning (+250)",
-    "routeNote": "Road trip across 4 stops away from home",
-    "miles": 1201,
-    "legs": 4,
+    "sport": "basketball",
+    "matchup": "\u2708\ufe0f Milwaukee Bucks (+370) @ \ud83d\ude0a Toronto Raptors (-480)",
+    "routeNote": "Road trip across 2 stops away from home",
+    "miles": 2301,
+    "legs": 2,
     "restSummary": "3 days home resting",
     "exhaustionGap": 90,
-    "happyML": 250
+    "happyML": -480
+  },
+  {
+    "sport": "basketball",
+    "matchup": "\u2708\ufe0f Utah Jazz (+530) @ \ud83d\ude0a Los Angeles Lakers (-750)",
+    "routeNote": "Road trip across 1 stops away from home",
+    "miles": 1162,
+    "legs": 1,
+    "restSummary": "3 days home resting",
+    "exhaustionGap": 68,
+    "happyML": -750
+  },
+  {
+    "sport": "basketball",
+    "matchup": "\u2708\ufe0f San Antonio Spurs (-480) @ \ud83d\ude0a Sacramento Kings (+370)",
+    "routeNote": "Road trip across 1 stops away from home",
+    "miles": 1459,
+    "legs": 1,
+    "restSummary": "2 days home resting",
+    "exhaustionGap": 57,
+    "happyML": 370
   },
   {
     "sport": "hockey",
-    "matchup": "\u2708\ufe0f Edmonton Oilers (+105) @ \ud83d\ude0a St Louis Blues (-125)",
-    "routeNote": "Road trip across 5 stops away from home",
-    "miles": 1760,
-    "legs": 5,
-    "restSummary": "4 days home resting",
-    "exhaustionGap": 100,
-    "happyML": -125
-  },
-  {
-    "sport": "hockey",
-    "matchup": "\u2708\ufe0f Chicago Blackhawks (-115) @ \ud83d\ude0a Vancouver Canucks (-105)",
-    "routeNote": "Road trip across 2 stops away from home",
-    "miles": 1814,
-    "legs": 2,
-    "restSummary": "1 days home resting",
-    "exhaustionGap": 96,
-    "happyML": -105
-  },
-  {
-    "sport": "hockey",
-    "matchup": "\u2708\ufe0f Los Angeles Kings (+124) @ \ud83d\ude0a Montr\u00e9al Canadiens (-148)",
+    "matchup": "\u2708\ufe0f Los Angeles Kings (+130) @ \ud83d\ude0a Montr\u00e9al Canadiens (-155)",
     "routeNote": "Road trip across 4 stops away from home",
     "miles": 634,
     "legs": 4,
     "restSummary": "4 days home resting",
     "exhaustionGap": 76,
-    "happyML": -148
+    "happyML": -155
   },
   {
     "sport": "hockey",
-    "matchup": "\u2708\ufe0f Minnesota Wild (-218) @ \ud83d\ude0a San Jose Sharks (+180)",
+    "matchup": "\u2708\ufe0f Minnesota Wild (-198) @ \ud83d\ude0a San Jose Sharks (+164)",
     "routeNote": "Road trip across 3 stops away from home",
     "miles": 2298,
     "legs": 3,
-    "restSummary": "1 days home resting",
+    "restSummary": "2 days home resting",
     "exhaustionGap": 100,
-    "happyML": 180
+    "happyML": 164
   },
   {
     "sport": "football",
-    "matchup": "\u2708\ufe0f Las Vegas Raiders (+610) @ \ud83d\ude0a Denver Broncos (-1120)",
+    "matchup": "\u2708\ufe0f Chicago Bears (-148) @ \ud83d\ude0a Detroit Lions (+125)",
     "routeNote": "Road trip across 1 stops away from home",
-    "miles": 608,
+    "miles": 237,
     "legs": 1,
-    "restSummary": "4 days home resting",
-    "exhaustionGap": 42,
-    "happyML": -1120
+    "restSummary": "1 days home resting",
+    "exhaustionGap": 33,
+    "happyML": 125
   },
   {
     "sport": "football",
-    "matchup": "\u2708\ufe0f Jacksonville Jaguars (+370) @ \ud83d\ude0a New York Giants (-564)",
+    "matchup": "\u2708\ufe0f Philadelphia Eagles (+347) @ \ud83d\ude0a Dallas Cowboys (-445)",
+    "routeNote": "Road trip across 1 stops away from home",
+    "miles": 1313,
+    "legs": 1,
+    "restSummary": "1 days home resting",
+    "exhaustionGap": 60,
+    "happyML": -445
+  },
+  {
+    "sport": "football",
+    "matchup": "\u2708\ufe0f Kansas City Chiefs (+127) @ \ud83d\ude0a Buffalo Bills (-151)",
+    "routeNote": "Road trip across 1 stops away from home",
+    "miles": 858,
+    "legs": 1,
+    "restSummary": "1 days home resting",
+    "exhaustionGap": 48,
+    "happyML": -151
+  },
+  {
+    "sport": "football",
+    "matchup": "\u2708\ufe0f Denver Broncos (-156) @ \ud83d\ude0a Pittsburgh Steelers (+132)",
+    "routeNote": "Road trip across 1 stops away from home",
+    "miles": 1318,
+    "legs": 1,
+    "restSummary": "1 days home resting",
+    "exhaustionGap": 66,
+    "happyML": 132
+  },
+  {
+    "sport": "football",
+    "matchup": "\u2708\ufe0f Baltimore Ravens (+238) @ \ud83d\ude0a Houston Texans (-292)",
     "routeNote": "Road trip across 2 stops away from home",
-    "miles": 757,
+    "miles": 1294,
     "legs": 2,
     "restSummary": "4 days home resting",
-    "exhaustionGap": 61,
-    "happyML": -564
+    "exhaustionGap": 74,
+    "happyML": -292
   },
   {
     "sport": "football",
-    "matchup": "\u2708\ufe0f Cincinnati Bengals (-296) @ \ud83d\ude0a Washington Commanders (+241)",
-    "routeNote": "Road trip across 1 stops away from home",
-    "miles": 411,
-    "legs": 1,
-    "restSummary": "4 days home resting",
-    "exhaustionGap": 25,
-    "happyML": 241
-  },
-  {
-    "sport": "football",
-    "matchup": "\u2708\ufe0f Green Bay Packers (+135) @ \ud83d\ude0a Los Angeles Rams (-160)",
-    "routeNote": "Road trip across 1 stops away from home",
-    "miles": 1764,
-    "legs": 1,
-    "restSummary": "7 days home resting",
-    "exhaustionGap": 62,
-    "happyML": -160
-  },
-  {
-    "sport": "football",
-    "matchup": "\u2708\ufe0f Kansas City Chiefs (+129) @ \ud83d\ude0a Buffalo Bills (-153)",
+    "matchup": "\u2708\ufe0f New Orleans Saints (+446) @ \ud83d\ude0a Cincinnati Bengals (-599)",
     "routeNote": "Road trip across 2 stops away from home",
-    "miles": 693,
+    "miles": 251,
     "legs": 2,
-    "restSummary": "7 days home resting",
-    "exhaustionGap": 40,
-    "happyML": -153
+    "restSummary": "4 days home resting",
+    "exhaustionGap": 48,
+    "happyML": -599
   },
   {
     "sport": "football",
-    "matchup": "\u2708\ufe0f Atlanta Falcons (+268) @ \ud83d\ude0a Minnesota Vikings (-332)",
-    "routeNote": "Road trip across 1 stops away from home",
-    "miles": 907,
-    "legs": 1,
-    "restSummary": "7 days home resting",
+    "matchup": "\u2708\ufe0f Tennessee Titans (+730) @ \ud83d\ude0a Jacksonville Jaguars (-1160)",
+    "routeNote": "Road trip across 2 stops away from home",
+    "miles": 925,
+    "legs": 2,
+    "restSummary": "1 days home resting",
     "exhaustionGap": 44,
-    "happyML": -332
+    "happyML": -1160
   },
   {
     "sport": "football",
-    "matchup": "\u2708\ufe0f New Orleans Saints (+427) @ \ud83d\ude0a Cincinnati Bengals (-568)",
-    "routeNote": "Road trip across 1 stops away from home",
-    "miles": 706,
-    "legs": 1,
-    "restSummary": "7 days home resting",
-    "exhaustionGap": 45,
-    "happyML": -568
-  },
-  {
-    "sport": "football",
-    "matchup": "\u2708\ufe0f Las Vegas Raiders (+171) @ \ud83d\ude0a Cleveland Browns (-205)",
-    "routeNote": "Road trip across 1 stops away from home",
-    "miles": 1829,
-    "legs": 1,
-    "restSummary": "7 days home resting",
-    "exhaustionGap": 97,
-    "happyML": -205
-  },
-  {
-    "sport": "football",
-    "matchup": "\u2708\ufe0f Carolina Panthers (+125) @ \ud83d\ude0a Tampa Bay Buccaneers (-148)",
+    "matchup": "\u2708\ufe0f Las Vegas Raiders (+184) @ \ud83d\ude0a Cleveland Browns (-221)",
     "routeNote": "Road trip across 2 stops away from home",
-    "miles": 478,
+    "miles": 1225,
     "legs": 2,
     "restSummary": "4 days home resting",
-    "exhaustionGap": 54,
-    "happyML": -148
+    "exhaustionGap": 85,
+    "happyML": -221
   }
 ]
