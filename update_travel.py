@@ -75,6 +75,15 @@ def calc_miles(c1, c2):
     a = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2
     return R * 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
 
+def fmt_spread(pt):
+    if pt is None:
+        return "PK"
+    val = float(pt)
+    if val == 0:
+        return "PK"
+    text = f"{val:g}"
+    return f"+{text}" if val > 0 else text
+
 def get_7d_travel_and_finals(espn_path):
     history = {}
     finals = {}
@@ -113,8 +122,7 @@ def get_7d_travel_and_finals(espn_path):
 
 def evaluate_team(team, host_today, history):
     rec = history.get(team, {"venues": [], "last_dt": None})
-    past_venues = rec["venues"]
-    full_path = past_venues + [host_today]
+    full_path = rec["venues"] + [host_today]
 
     miles = 0
     tz_shifts = 0
@@ -153,10 +161,16 @@ def load_history():
             pass
     return []
 
+def calc_unit_profit(ml):
+    val = float(ml or -110)
+    if val > 0:
+        return round(100.0 * (val / 100.0), 2)
+    if val < 0:
+        return round(100.0 * (100.0 / abs(val)), 2)
+    return 0.0
+
 def grade_history(history_entries, finals_by_sport):
     for entry in history_entries:
-        if entry.get("status") in ("won", "lost"):
-            continue
         sport_finals = finals_by_sport.get(entry.get("sport"), {})
         home = entry.get("homeTeam")
         away = entry.get("awayTeam")
@@ -166,26 +180,42 @@ def grade_history(history_entries, finals_by_sport):
         scores = sport_finals.get(key)
         if not scores:
             continue
-        h_score = scores.get(home, 0)
-        a_score = scores.get(away, 0)
+
+        h_score = scores.get(home, 0.0)
+        a_score = scores.get(away, 0.0)
         entry["finalScore"] = f"{away} {int(a_score)} - {home} {int(h_score)}"
-        if h_score == a_score:
-            entry["status"] = "push"
-            entry["netProfit"] = 0.0
-        elif h_score > a_score:
-            entry["status"] = "won"
-            ml = float(entry.get("happyML", -110))
-            profit = 100.0 * (ml / 100.0) if ml > 0 else 100.0 * (100.0 / abs(ml))
-            entry["netProfit"] = round(profit, 2)
-        else:
-            entry["status"] = "lost"
-            entry["netProfit"] = -100.0
+
+        # Grade Moneyline
+        if entry.get("status") not in ("won", "lost", "push"):
+            if h_score == a_score:
+                entry["status"] = "push"
+                entry["netProfit"] = 0.0
+            elif h_score > a_score:
+                entry["status"] = "won"
+                entry["netProfit"] = calc_unit_profit(entry.get("happyML", -110))
+            else:
+                entry["status"] = "lost"
+                entry["netProfit"] = -100.0
+
+        # Grade Spread (ATS)
+        if entry.get("spreadLine") is not None and entry.get("spreadStatus") not in ("won", "lost", "push"):
+            h_spread = float(entry["spreadLine"])
+            adjusted_home = h_score + h_spread
+            if adjusted_home == a_score:
+                entry["spreadStatus"] = "push"
+                entry["spreadProfit"] = 0.0
+            elif adjusted_home > a_score:
+                entry["spreadStatus"] = "won"
+                entry["spreadProfit"] = calc_unit_profit(entry.get("happySpreadOdds", -110))
+            else:
+                entry["spreadStatus"] = "lost"
+                entry["spreadProfit"] = -100.0
     return history_entries
 
 def run():
     results = []
     history_entries = load_history()
-    existing_ids = {item.get("id") for item in history_entries if item.get("id")}
+    existing_map = {item["id"]: item for item in history_entries if item.get("id")}
     finals_by_sport = {}
     today_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
@@ -194,7 +224,7 @@ def run():
         finals_by_sport[cfg["cat"]] = finals
 
         url = f"https://api.the-odds-api.com/v4/sports/{cfg['odds_key']}/odds/"
-        params = {"apiKey": API_KEY, "regions": "us", "markets": "h2h", "oddsFormat": "american"}
+        params = {"apiKey": API_KEY, "regions": "us", "markets": "h2h,spreads", "oddsFormat": "american"}
         try:
             games = requests.get(url, params=params, timeout=10).json()
             if not isinstance(games, list):
@@ -204,9 +234,24 @@ def run():
                 bms = g.get("bookmakers", [])
                 if not bms:
                     continue
-                outcomes = bms[0]["markets"][0]["outcomes"]
-                ml_map = {o["name"]: o["price"] for o in outcomes}
+
+                markets = {m["key"]: m["outcomes"] for m in bms[0].get("markets", [])}
+                h2h_outcomes = markets.get("h2h", [])
+                if not h2h_outcomes:
+                    continue
+
+                ml_map = {o["name"]: o["price"] for o in h2h_outcomes}
                 home_ml, away_ml = ml_map.get(home, -110), ml_map.get(away, -110)
+
+                spread_outcomes = markets.get("spreads", [])
+                sp_map = {o["name"]: o for o in spread_outcomes}
+                home_sp_obj = sp_map.get(home, {})
+                away_sp_obj = sp_map.get(away, {})
+
+                home_spread = home_sp_obj.get("point")
+                away_spread = away_sp_obj.get("point")
+                home_sp_odds = home_sp_obj.get("price", -110)
+                away_sp_odds = away_sp_obj.get("price", -110)
 
                 away_fat, away_mi, away_commutes, _ = evaluate_team(away, home, travel_map)
                 home_fat, _, _, home_stay_days = evaluate_team(home, home, travel_map)
@@ -214,37 +259,58 @@ def run():
 
                 if gap >= 20 and home_fat <= 25:
                     matchup_str = f"✈️ {away} ({'+' if away_ml > 0 else ''}{away_ml}) @ 😊 {home} ({'+' if home_ml > 0 else ''}{home_ml})"
+                    spread_matchup_str = (
+                        f"✈️ {away} ({fmt_spread(away_spread)} / {'+' if away_sp_odds > 0 else ''}{away_sp_odds}) @ "
+                        f"😊 {home} ({fmt_spread(home_spread)} / {'+' if home_sp_odds > 0 else ''}{home_sp_odds})"
+                        if home_spread is not None else matchup_str
+                    )
+
                     item = {
                         "sport": cfg["cat"],
                         "awayTeam": away,
                         "homeTeam": home,
                         "matchup": matchup_str,
+                        "spreadMatchup": spread_matchup_str,
                         "routeNote": f"Road trip across {away_commutes} stops away from home",
                         "miles": away_mi,
                         "legs": away_commutes,
                         "restSummary": f"{home_stay_days} days home resting",
                         "exhaustionGap": gap,
-                        "happyML": home_ml
+                        "happyML": home_ml,
+                        "happySpread": home_spread,
+                        "awaySpread": away_spread,
+                        "happySpreadOdds": home_sp_odds
                     }
                     results.append(item)
 
                     pick_id = f"{today_str}_{cfg['cat']}_{away}_{home}"
-                    if pick_id not in existing_ids:
-                        existing_ids.add(pick_id)
-                        history_entries.append({
+                    if pick_id not in existing_map:
+                        new_entry = {
                             "id": pick_id,
                             "date": today_str,
                             "sport": cfg["cat"],
                             "awayTeam": away,
                             "homeTeam": home,
                             "matchup": matchup_str,
+                            "spreadMatchup": spread_matchup_str,
                             "legs": away_commutes,
                             "exhaustionGap": gap,
                             "happyML": home_ml,
+                            "spreadLine": home_spread,
+                            "happySpreadOdds": home_sp_odds,
                             "status": "pending",
+                            "spreadStatus": "pending" if home_spread is not None else "n/a",
                             "finalScore": "",
-                            "netProfit": 0.0
-                        })
+                            "netProfit": 0.0,
+                            "spreadProfit": 0.0
+                        }
+                        history_entries.append(new_entry)
+                        existing_map[pick_id] = new_entry
+                    elif existing_map[pick_id].get("spreadLine") is None and home_spread is not None:
+                        existing_map[pick_id]["spreadLine"] = home_spread
+                        existing_map[pick_id]["happySpreadOdds"] = home_sp_odds
+                        existing_map[pick_id]["spreadMatchup"] = spread_matchup_str
+                        existing_map[pick_id]["spreadStatus"] = "pending"
         except Exception as e:
             print(f"Error {cfg['odds_key']}: {e}")
 
