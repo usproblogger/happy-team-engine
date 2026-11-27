@@ -6,7 +6,7 @@
   <title>Happy vs. Unhappy Team Rest Engine</title>
 </head>
 <body style="margin: 0; padding: 16px; background: #0b0f17;">
-<!-- HAPPY VS. UNHAPPY TEAM TRAVEL & REST ENGINE (WITH HISTORICAL TAB) -->
+<!-- HAPPY VS. UNHAPPY TEAM TRAVEL & REST ENGINE (WITH CLICK-TO-SORT COLUMNS) -->
 <div id="happy-team-app" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 960px; margin: 20px auto; padding: 20px; background: #121824; color: #f1f5f9; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
 
   <div style="border-bottom: 1px solid #334155; padding-bottom: 15px; margin-bottom: 16px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; align-items: center;">
@@ -53,28 +53,28 @@
       <table style="width: 100%; border-collapse: collapse; font-size: 14px; text-align: left;">
         <thead>
           <tr style="border-bottom: 2px solid #334155; color: #cbd5e1;">
-            <th style="padding: 10px;">
-              <div>Unhappy vs. Happy Team</div>
+            <th class="ht-live-th" data-sort="matchup" style="padding: 10px; cursor: pointer; user-select: none;">
+              <div>Unhappy vs. Happy Team <span class="ht-sort-ind" data-col="matchup" style="color:#94a3b8;font-size:11px;"></span></div>
               <div style="font-size: 11px; color: #94a3b8; font-weight: normal;">(<span style="color: #f87171;">✈️ Unhappy Red</span> vs. <span style="color: #4ade80;">😊 Happy Green</span>)</div>
             </th>
-            <th style="padding: 10px; text-align: center;">
-              <div>Legs</div>
+            <th class="ht-live-th" data-sort="legs" style="padding: 10px; text-align: center; cursor: pointer; user-select: none;">
+              <div>Legs <span class="ht-sort-ind" data-col="legs" style="color:#94a3b8;font-size:11px;"></span></div>
               <div style="font-size: 11px; color: #94a3b8; font-weight: normal;">(Commutes)</div>
             </th>
-            <th style="padding: 10px; text-align: center;">
-              <div>7-Day Miles & Rest</div>
+            <th class="ht-live-th" data-sort="miles" style="padding: 10px; text-align: center; cursor: pointer; user-select: none;">
+              <div>7-Day Miles & Rest <span class="ht-sort-ind" data-col="miles" style="color:#94a3b8;font-size:11px;"></span></div>
               <div style="font-size: 11px; color: #94a3b8; font-weight: normal;">(Total Distance & Home Stay)</div>
             </th>
-            <th style="padding: 10px; text-align: center;">
-              <div>Exhaustion Gap</div>
+            <th class="ht-live-th" data-sort="gap" style="padding: 10px; text-align: center; cursor: pointer; user-select: none;">
+              <div>Exhaustion Gap <span class="ht-sort-ind" data-col="gap" style="color:#94a3b8;font-size:11px;"></span></div>
               <div style="font-size: 11px; color: #94a3b8; font-weight: normal;">(0–100 Fatigue Diff)</div>
             </th>
-            <th style="padding: 10px; text-align: center;">
-              <div>Rest Edge Rating</div>
+            <th class="ht-live-th" data-sort="edge" style="padding: 10px; text-align: center; cursor: pointer; user-select: none;">
+              <div>Rest Edge Rating <span class="ht-sort-ind" data-col="edge" style="color:#fbbf24;font-size:11px;">▼</span></div>
               <div style="font-size: 11px; color: #94a3b8; font-weight: normal;">(Gap × Happy Win%)</div>
             </th>
-            <th style="padding: 10px; text-align: right;">
-              <div>Happy Team Payout</div>
+            <th class="ht-live-th" data-sort="roi" style="padding: 10px; text-align: right; cursor: pointer; user-select: none;">
+              <div>Happy Team Payout <span class="ht-sort-ind" data-col="roi" style="color:#94a3b8;font-size:11px;"></span></div>
               <div style="font-size: 11px; color: #94a3b8; font-weight: normal;">(Net Profit & ROI%)</div>
             </th>
           </tr>
@@ -93,12 +93,12 @@
       <table style="width: 100%; border-collapse: collapse; font-size: 14px; text-align: left;">
         <thead>
           <tr style="border-bottom: 2px solid #334155; color: #cbd5e1;">
-            <th style="padding: 10px;">Date</th>
-            <th style="padding: 10px;">Matchup</th>
-            <th style="padding: 10px; text-align: center;">Legs & Gap</th>
-            <th style="padding: 10px; text-align: center;">Final Score</th>
-            <th style="padding: 10px; text-align: center;">Result</th>
-            <th style="padding: 10px; text-align: right;">Net P/L</th>
+            <th class="ht-hist-th" data-hsort="date" style="padding: 10px; cursor: pointer; user-select: none;">Date <span class="ht-hsort-ind" data-hcol="date" style="color:#fbbf24;font-size:11px;">▼</span></th>
+            <th class="ht-hist-th" data-hsort="matchup" style="padding: 10px; cursor: pointer; user-select: none;">Matchup <span class="ht-hsort-ind" data-hcol="matchup" style="color:#94a3b8;font-size:11px;"></span></th>
+            <th class="ht-hist-th" data-hsort="legs" style="padding: 10px; text-align: center; cursor: pointer; user-select: none;">Legs & Gap <span class="ht-hsort-ind" data-hcol="legs" style="color:#94a3b8;font-size:11px;"></span></th>
+            <th class="ht-hist-th" data-hsort="score" style="padding: 10px; text-align: center; cursor: pointer; user-select: none;">Final Score <span class="ht-hsort-ind" data-hcol="score" style="color:#94a3b8;font-size:11px;"></span></th>
+            <th class="ht-hist-th" data-hsort="status" style="padding: 10px; text-align: center; cursor: pointer; user-select: none;">Result <span class="ht-hsort-ind" data-hcol="status" style="color:#94a3b8;font-size:11px;"></span></th>
+            <th class="ht-hist-th" data-hsort="pnl" style="padding: 10px; text-align: right; cursor: pointer; user-select: none;">Net P/L <span class="ht-hsort-ind" data-hcol="pnl" style="color:#94a3b8;font-size:11px;"></span></th>
           </tr>
         </thead>
         <tbody id="ht-history-rows">
@@ -115,8 +115,8 @@
       Exhausted road teams are <span style="color: #f87171;">highlighted in red</span>; rested home targets are <span style="color: #4ade80;">highlighted in green</span>. Click any game for Google match stats.
     </div>
     <div style="background: #1e293b; padding: 12px; border-radius: 8px;">
-      <div style="color: #93c5fd; font-weight: bold; margin-bottom: 4px;">Legs Column</div>
-      Shows how many separate city-to-city commutes the visiting team made during their road swing.
+      <div style="color: #93c5fd; font-weight: bold; margin-bottom: 4px;">Sortable Headers</div>
+      Click any column header to sort ascending or descending; click again to flip direction.
     </div>
     <div style="background: #1e293b; padding: 12px; border-radius: 8px;">
       <div style="color: #f87171; font-weight: bold; margin-bottom: 4px;">Exhaustion Gap</div>
@@ -138,6 +138,10 @@
   var TRAVEL_FEED_URL = "https://raw.githubusercontent.com/usproblogger/happy-team-engine/main/travel_data.json";
   var HISTORY_FEED_URL = "https://raw.githubusercontent.com/usproblogger/happy-team-engine/main/travel_history.json";
   var currentTab = "live";
+  var liveSortCol = "edge";
+  var liveSortDir = "desc";
+  var histSortCol = "date";
+  var histSortDir = "desc";
 
   var fallbackData = [
     {
@@ -218,6 +222,13 @@
     return item.exhaustionGap * getWinProb(item.happyML);
   }
 
+  function getRoiPct(item) {
+    var num = parseFloat(item.happyML) || 0;
+    if (num > 0) return num;
+    if (num < 0) return (100 / Math.abs(num)) * 100;
+    return 0;
+  }
+
   function formatColoredMatchup(matchupStr) {
     var parts = matchupStr.split(" @ ");
     if (parts.length === 2) {
@@ -226,6 +237,58 @@
       return awayTeam + ' @ ' + homeTeam;
     }
     return '<span style="color: #f8fafc; font-weight: 600;">' + matchupStr + '</span>';
+  }
+
+  function updateLiveSortIndicators() {
+    var inds = document.querySelectorAll(".ht-sort-ind");
+    for (var i = 0; i < inds.length; i++) {
+      var col = inds[i].getAttribute("data-col");
+      if (col === liveSortCol) {
+        inds[i].textContent = liveSortDir === "desc" ? "▼" : "▲";
+        inds[i].style.color = "#fbbf24";
+      } else {
+        inds[i].textContent = "";
+        inds[i].style.color = "#94a3b8";
+      }
+    }
+    var sel = document.getElementById("ht-sort-select");
+    if (sel && ["edge", "legs", "miles", "roi"].indexOf(liveSortCol) !== -1) {
+      sel.value = liveSortCol;
+    }
+  }
+
+  function updateHistSortIndicators() {
+    var inds = document.querySelectorAll(".ht-hsort-ind");
+    for (var i = 0; i < inds.length; i++) {
+      var col = inds[i].getAttribute("data-hcol");
+      if (col === histSortCol) {
+        inds[i].textContent = histSortDir === "desc" ? "▼" : "▲";
+        inds[i].style.color = "#fbbf24";
+      } else {
+        inds[i].textContent = "";
+        inds[i].style.color = "#94a3b8";
+      }
+    }
+  }
+
+  function handleLiveHeaderClick(col) {
+    if (liveSortCol === col) {
+      liveSortDir = liveSortDir === "desc" ? "asc" : "desc";
+    } else {
+      liveSortCol = col;
+      liveSortDir = col === "matchup" ? "asc" : "desc";
+    }
+    renderHappyTable();
+  }
+
+  function handleHistHeaderClick(col) {
+    if (histSortCol === col) {
+      histSortDir = histSortDir === "desc" ? "asc" : "desc";
+    } else {
+      histSortCol = col;
+      histSortDir = (col === "matchup" || col === "score" || col === "status") ? "asc" : "desc";
+    }
+    renderHistoryTable();
   }
 
   function setActiveTab(tabName) {
@@ -267,21 +330,32 @@
 
     var stake = parseFloat(document.getElementById("ht-wager-input").value) || 100;
     var sport = document.getElementById("ht-sport-select").value;
-    var sort = document.getElementById("ht-sort-select").value;
+    var dirMult = liveSortDir === "asc" ? 1 : -1;
 
     var items = activeTravelData.filter(function(g) {
       return sport === "all" || g.sport === sport;
     });
 
-    if (sort === "edge") {
-      items.sort(function(a, b) { return getRestEdge(b) - getRestEdge(a); });
-    } else if (sort === "legs") {
-      items.sort(function(a, b) { return (b.legs || 1) - (a.legs || 1); });
-    } else if (sort === "miles") {
-      items.sort(function(a, b) { return b.miles - a.miles; });
-    } else if (sort === "roi") {
-      items.sort(function(a, b) { return b.happyML - a.happyML; });
-    }
+    items.sort(function(a, b) {
+      var cmp = 0;
+      if (liveSortCol === "matchup") {
+        cmp = String(a.matchup || "").localeCompare(String(b.matchup || ""));
+        return dirMult === 1 ? cmp : -cmp;
+      } else if (liveSortCol === "legs") {
+        cmp = (a.legs || 1) - (b.legs || 1);
+      } else if (liveSortCol === "miles") {
+        cmp = (a.miles || 0) - (b.miles || 0);
+      } else if (liveSortCol === "gap") {
+        cmp = (a.exhaustionGap || 0) - (b.exhaustionGap || 0);
+      } else if (liveSortCol === "roi") {
+        cmp = getRoiPct(a) - getRoiPct(b);
+      } else {
+        cmp = getRestEdge(a) - getRestEdge(b);
+      }
+      return cmp * dirMult;
+    });
+
+    updateLiveSortIndicators();
 
     if (!items.length) {
       tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px; color: #94a3b8;">No travel mismatches found for this sport.</td></tr>';
@@ -331,24 +405,45 @@
     var stake = parseFloat(document.getElementById("ht-wager-input").value) || 100;
     var scale = stake / 100.0;
     var sport = document.getElementById("ht-sport-select").value;
+    var dirMult = histSortDir === "asc" ? 1 : -1;
 
-    var entries = activeHistoryData.filter(function(h) {
+    var filtered = activeHistoryData.filter(function(h) {
       return sport === "all" || h.sport === sport;
-    }).slice().reverse();
+    });
 
     var wins = 0, losses = 0, gradedCount = 0, totalNet = 0;
-    for (var i = 0; i < entries.length; i++) {
-      var st = entries[i].status || "pending";
+    for (var i = 0; i < filtered.length; i++) {
+      var st = filtered[i].status || "pending";
       if (st === "won") {
         wins++;
         gradedCount++;
-        totalNet += (parseFloat(entries[i].netProfit) || 0) * scale;
+        totalNet += (parseFloat(filtered[i].netProfit) || 0) * scale;
       } else if (st === "lost") {
         losses++;
         gradedCount++;
-        totalNet += (parseFloat(entries[i].netProfit) || -100) * scale;
+        totalNet += (parseFloat(filtered[i].netProfit) || -100) * scale;
       }
     }
+
+    var entries = filtered.slice().sort(function(a, b) {
+      var cmp = 0;
+      if (histSortCol === "date") {
+        cmp = String(a.date || "").localeCompare(String(b.date || ""));
+      } else if (histSortCol === "matchup") {
+        cmp = String(a.matchup || "").localeCompare(String(b.matchup || ""));
+      } else if (histSortCol === "legs") {
+        cmp = ((a.legs || 1) * 1000 + (a.exhaustionGap || 0)) - ((b.legs || 1) * 1000 + (b.exhaustionGap || 0));
+      } else if (histSortCol === "score") {
+        cmp = String(a.finalScore || "").localeCompare(String(b.finalScore || ""));
+      } else if (histSortCol === "status") {
+        cmp = String(a.status || "").localeCompare(String(b.status || ""));
+      } else if (histSortCol === "pnl") {
+        cmp = (parseFloat(a.netProfit) || 0) - (parseFloat(b.netProfit) || 0);
+      }
+      return cmp * dirMult;
+    });
+
+    updateHistSortIndicators();
 
     var winRate = gradedCount > 0 ? ((wins / gradedCount) * 100).toFixed(1) : "0.0";
     var totalRisked = gradedCount * stake;
@@ -391,7 +486,7 @@
         '<td style="padding:10px;">' + formatColoredMatchup(h.matchup || "") + '</td>' +
         '<td style="padding:10px;text-align:center;color:#93c5fd;font-size:12px;">' + (h.legs || 1) + ' leg / +' + (h.exhaustionGap || 0) + '</td>' +
         '<td style="padding:10px;text-align:center;color:#cbd5e1;font-size:12px;">' + (h.finalScore || "Pending") + '</td>' +
-        '<td style="padding: 10px;text-align:center;"><span style="background:' + badgeBg + ';color:' + badgeColor + ';padding:3px 8px;border-radius:5px;font-size:11px;font-weight:700;">' + badgeText + '</span></td>' +
+        '<td style="padding:10px;text-align:center;"><span style="background:' + badgeBg + ';color:' + badgeColor + ';padding:3px 8px;border-radius:5px;font-size:11px;font-weight:700;">' + badgeText + '</span></td>' +
         '<td style="padding:10px;text-align:right;font-weight:700;color:' + pnlColor + ';">' + pnlText + '</td>' +
       '</tr>';
     }
@@ -442,7 +537,29 @@
   document.getElementById("ht-wager-input").addEventListener("input", function() {
     if (currentTab === "live") renderHappyTable(); else renderHistoryTable();
   });
-  document.getElementById("ht-sort-select").addEventListener("change", renderHappyTable);
+  document.getElementById("ht-sort-select").addEventListener("change", function() {
+    liveSortCol = this.value;
+    liveSortDir = "desc";
+    renderHappyTable();
+  });
+
+  var liveHeaders = document.querySelectorAll(".ht-live-th");
+  for (var i = 0; i < liveHeaders.length; i++) {
+    (function(th) {
+      th.addEventListener("click", function() {
+        handleLiveHeaderClick(th.getAttribute("data-sort"));
+      });
+    })(liveHeaders[i]);
+  }
+
+  var histHeaders = document.querySelectorAll(".ht-hist-th");
+  for (var j = 0; j < histHeaders.length; j++) {
+    (function(th) {
+      th.addEventListener("click", function() {
+        handleHistHeaderClick(th.getAttribute("data-hsort"));
+      });
+    })(histHeaders[j]);
+  }
 
   window.addEventListener("DOMContentLoaded", initHappyApp);
   setTimeout(initHappyApp, 100);
