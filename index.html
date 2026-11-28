@@ -6,19 +6,17 @@
   <title>Happy vs. Unhappy Team Rest Engine</title>
 </head>
 <body style="margin: 0; padding: 16px; background: #0b0f17;">
-<!-- HAPPY VS. UNHAPPY TEAM TRAVEL & REST ENGINE (ML + SPREADS / LIVE + HISTORICAL) -->
-<div id="happy-team-app" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 980px; margin: 20px auto; padding: 20px; background: #121824; color: #f1f5f9; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+<!-- HAPPY VS. UNHAPPY TEAM TRAVEL & REST ENGINE (TWO-TAB VERSION) -->
+<div id="happy-team-app" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 960px; margin: 20px auto; padding: 20px; background: #121824; color: #f1f5f9; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
 
   <div style="border-bottom: 1px solid #334155; padding-bottom: 15px; margin-bottom: 16px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; align-items: center;">
     <div>
       <h2 style="margin: 0; color: #4ade80; font-size: 20px;">Happy vs. Unhappy Team Rest Engine</h2>
-      <p style="margin: 4px 0 0; color: #94a3b8; font-size: 13px;">Targeting rested home teams (😊) against travel-exhausted opponents (✈️) across Moneyline & Point Spreads.</p>
+      <p style="margin: 4px 0 0; color: #94a3b8; font-size: 13px;">Targeting rested home teams (😊) against travel-exhausted opponents (✈️) using travel legs, miles, and rest gaps.</p>
     </div>
-    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-      <button type="button" id="ht-tab-live-ml" style="background: #4ade80; color: #0f172a; border: 1px solid #4ade80; padding: 7px 12px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 12px;">Live ML</button>
-      <button type="button" id="ht-tab-live-spread" style="background: #1e293b; color: #cbd5e1; border: 1px solid #334155; padding: 7px 12px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 12px;">Live Spreads</button>
-      <button type="button" id="ht-tab-hist-ml" style="background: #1e293b; color: #cbd5e1; border: 1px solid #334155; padding: 7px 12px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 12px;">Historical ML</button>
-      <button type="button" id="ht-tab-hist-spread" style="background: #1e293b; color: #cbd5e1; border: 1px solid #334155; padding: 7px 12px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 12px;">Historical Spreads</button>
+    <div style="display: flex; gap: 8px;">
+      <button type="button" id="ht-tab-live" style="background: #4ade80; color: #0f172a; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 13px;">Live Picks</button>
+      <button type="button" id="ht-tab-history" style="background: #1e293b; color: #cbd5e1; border: 1px solid #334155; padding: 8px 14px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px;">Historical</button>
     </div>
   </div>
 
@@ -40,7 +38,7 @@
     <div id="ht-live-sort-wrap">
       <label style="font-size: 12px; color: #94a3b8; display: block; margin-bottom: 4px;">Sort Ranking By:</label>
       <select id="ht-sort-select" style="background: #0f172a; border: 1px solid #334155; color: #fff; padding: 6px 10px; border-radius: 6px;">
-        <option value="edge">Highest Rest Edge Rating (Gap × Cover/Win%)</option>
+        <option value="edge">Highest Rest Edge Rating (Exhaustion Gap × Happy Win%)</option>
         <option value="legs">Most Commute Legs / Stops</option>
         <option value="miles">Most Travel Miles</option>
         <option value="roi">Highest Happy Team Payout (ROI%)</option>
@@ -49,14 +47,14 @@
     <div id="ht-status-text" style="margin-left: auto; font-size: 12px; color: #4ade80;">Rest Tracker Active</div>
   </div>
 
-  <!-- LIVE PICKS VIEW (SHARED BY LIVE ML & LIVE SPREADS) -->
+  <!-- LIVE PICKS VIEW -->
   <div id="ht-live-panel">
     <div style="overflow-x: auto;">
       <table style="width: 100%; border-collapse: collapse; font-size: 14px; text-align: left;">
         <thead>
           <tr style="border-bottom: 2px solid #334155; color: #cbd5e1;">
             <th class="ht-live-th" data-sort="matchup" style="padding: 10px; cursor: pointer; user-select: none;">
-              <div id="ht-live-col1-title">Unhappy vs. Happy Team (ML) <span class="ht-sort-ind" data-col="matchup" style="color:#94a3b8;font-size:11px;"></span></div>
+              <div>Unhappy vs. Happy Team <span class="ht-sort-ind" data-col="matchup" style="color:#94a3b8;font-size:11px;"></span></div>
               <div style="font-size: 11px; color: #94a3b8; font-weight: normal;">(<span style="color: #f87171;">✈️ Unhappy Red</span> vs. <span style="color: #4ade80;">😊 Happy Green</span>)</div>
             </th>
             <th class="ht-live-th" data-sort="legs" style="padding: 10px; text-align: center; cursor: pointer; user-select: none;">
@@ -64,8 +62,8 @@
               <div style="font-size: 11px; color: #94a3b8; font-weight: normal;">(Commutes)</div>
             </th>
             <th class="ht-live-th" data-sort="miles" style="padding: 10px; text-align: center; cursor: pointer; user-select: none;">
-              <div>7-Day Miles & Rest <span class="ht-sort-ind" data-col="miles" style="color:#94a3b8;font-size:11px;"></span></div>
-              <div style="font-size: 11px; color: #94a3b8; font-weight: normal;">(Total Distance & Home Stay)</div>
+              <div>7-Day Miles &amp; Rest <span class="ht-sort-ind" data-col="miles" style="color:#94a3b8;font-size:11px;"></span></div>
+              <div style="font-size: 11px; color: #94a3b8; font-weight: normal;">(Total Distance &amp; Home Stay)</div>
             </th>
             <th class="ht-live-th" data-sort="gap" style="padding: 10px; text-align: center; cursor: pointer; user-select: none;">
               <div>Exhaustion Gap <span class="ht-sort-ind" data-col="gap" style="color:#94a3b8;font-size:11px;"></span></div>
@@ -73,11 +71,11 @@
             </th>
             <th class="ht-live-th" data-sort="edge" style="padding: 10px; text-align: center; cursor: pointer; user-select: none;">
               <div>Rest Edge Rating <span class="ht-sort-ind" data-col="edge" style="color:#fbbf24;font-size:11px;">▼</span></div>
-              <div id="ht-live-col5-sub" style="font-size: 11px; color: #94a3b8; font-weight: normal;">(Gap × Happy Win%)</div>
+              <div style="font-size: 11px; color: #94a3b8; font-weight: normal;">(Gap × Happy Win%)</div>
             </th>
             <th class="ht-live-th" data-sort="roi" style="padding: 10px; text-align: right; cursor: pointer; user-select: none;">
-              <div id="ht-live-col6-title">Happy ML Payout <span class="ht-sort-ind" data-col="roi" style="color:#94a3b8;font-size:11px;"></span></div>
-              <div style="font-size: 11px; color: #94a3b8; font-weight: normal;">(Net Profit & ROI%)</div>
+              <div>Happy Team Payout <span class="ht-sort-ind" data-col="roi" style="color:#94a3b8;font-size:11px;"></span></div>
+              <div style="font-size: 11px; color: #94a3b8; font-weight: normal;">(Net Profit &amp; ROI%)</div>
             </th>
           </tr>
         </thead>
@@ -88,7 +86,7 @@
     </div>
   </div>
 
-  <!-- HISTORICAL EVALUATION VIEW (SHARED BY HISTORICAL ML & HISTORICAL SPREADS) -->
+  <!-- HISTORICAL EVALUATION VIEW -->
   <div id="ht-history-panel" style="display: none;">
     <div id="ht-history-summary" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 18px;"></div>
     <div style="overflow-x: auto;">
@@ -96,8 +94,8 @@
         <thead>
           <tr style="border-bottom: 2px solid #334155; color: #cbd5e1;">
             <th class="ht-hist-th" data-hsort="date" style="padding: 10px; cursor: pointer; user-select: none;">Date <span class="ht-hsort-ind" data-hcol="date" style="color:#fbbf24;font-size:11px;">▼</span></th>
-            <th class="ht-hist-th" data-hsort="matchup" style="padding: 10px; cursor: pointer; user-select: none;"><span id="ht-hist-col2-title">Matchup (ML)</span> <span class="ht-hsort-ind" data-hcol="matchup" style="color:#94a3b8;font-size:11px;"></span></th>
-            <th class="ht-hist-th" data-hsort="legs" style="padding: 10px; text-align: center; cursor: pointer; user-select: none;">Legs & Gap <span class="ht-hsort-ind" data-hcol="legs" style="color:#94a3b8;font-size:11px;"></span></th>
+            <th class="ht-hist-th" data-hsort="matchup" style="padding: 10px; cursor: pointer; user-select: none;">Matchup <span class="ht-hsort-ind" data-hcol="matchup" style="color:#94a3b8;font-size:11px;"></span></th>
+            <th class="ht-hist-th" data-hsort="legs" style="padding: 10px; text-align: center; cursor: pointer; user-select: none;">Legs &amp; Gap <span class="ht-hsort-ind" data-hcol="legs" style="color:#94a3b8;font-size:11px;"></span></th>
             <th class="ht-hist-th" data-hsort="score" style="padding: 10px; text-align: center; cursor: pointer; user-select: none;">Final Score <span class="ht-hsort-ind" data-hcol="score" style="color:#94a3b8;font-size:11px;"></span></th>
             <th class="ht-hist-th" data-hsort="status" style="padding: 10px; text-align: center; cursor: pointer; user-select: none;">Result <span class="ht-hsort-ind" data-hcol="status" style="color:#94a3b8;font-size:11px;"></span></th>
             <th class="ht-hist-th" data-hsort="pnl" style="padding: 10px; text-align: right; cursor: pointer; user-select: none;">Net P/L <span class="ht-hsort-ind" data-hcol="pnl" style="color:#94a3b8;font-size:11px;"></span></th>
@@ -113,8 +111,8 @@
   <!-- METRIC EXPLANATION GUIDE -->
   <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid #334155; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; font-size: 12px; color: #94a3b8; line-height: 1.5;">
     <div style="background: #1e293b; padding: 12px; border-radius: 8px;">
-      <div style="color: #f1f5f9; font-weight: bold; margin-bottom: 4px;">Live ML vs. Live Spreads</div>
-      Switch between outright Moneyline winners and Point Spread (ATS) handicaps for rested home teams.
+      <div style="color: #f1f5f9; font-weight: bold; margin-bottom: 4px;">✈️ Red vs. 😊 Green</div>
+      Exhausted road teams are <span style="color: #f87171;">highlighted in red</span>; rested home targets are <span style="color: #4ade80;">highlighted in green</span>. Click any game for Google match stats.
     </div>
     <div style="background: #1e293b; padding: 12px; border-radius: 8px;">
       <div style="color: #93c5fd; font-weight: bold; margin-bottom: 4px;">Sortable Headers</div>
@@ -126,11 +124,11 @@
     </div>
     <div style="background: #1e293b; padding: 12px; border-radius: 8px;">
       <div style="color: #fbbf24; font-weight: bold; margin-bottom: 4px;">Rest Edge Rating</div>
-      Composite score multiplying <strong>Exhaustion Gap</strong> by the Happy Team's implied win or cover probability.
+      Composite score multiplying <strong>Exhaustion Gap</strong> by the Happy Team's <strong>Win Probability</strong>.
     </div>
     <div style="background: #1e293b; padding: 12px; border-radius: 8px;">
-      <div style="color: #4ade80; font-weight: bold; margin-bottom: 4px;">Historical ML & Spreads</div>
-      Grades past Moneyline and ATS picks separately against final scores and scales P/L to your stake.
+      <div style="color: #4ade80; font-weight: bold; margin-bottom: 4px;">Historical Tab</div>
+      Grades past suggestions against final scores and scales profit/loss to your Wager Stake.
     </div>
   </div>
 </div>
@@ -139,7 +137,7 @@
 (function() {
   var TRAVEL_FEED_URL = "https://raw.githubusercontent.com/usproblogger/happy-team-engine/main/travel_data.json";
   var HISTORY_FEED_URL = "https://raw.githubusercontent.com/usproblogger/happy-team-engine/main/travel_history.json";
-  var currentTab = "live-ml";
+  var currentTab = "live";
   var liveSortCol = "edge";
   var liveSortDir = "desc";
   var histSortCol = "date";
@@ -149,41 +147,32 @@
     {
       sport: "basketball",
       matchup: "✈️ Lakers (+155) @ 😊 Celtics (-185)",
-      spreadMatchup: "✈️ Lakers (+4.5 / -110) @ 😊 Celtics (-4.5 / -110)",
       routeNote: "Multi-city road swing",
       miles: 4120,
       legs: 3,
       restSummary: "5 days home resting",
       exhaustionGap: 86,
-      happyML: -185,
-      happySpread: -4.5,
-      happySpreadOdds: -110
+      happyML: -185
     },
     {
       sport: "hockey",
       matchup: "✈️ Oilers (+142) @ 😊 Blackhawks (-168)",
-      spreadMatchup: "✈️ Oilers (-1.5 / +165) @ 😊 Blackhawks (+1.5 / -195)",
       routeNote: "Cross-continent road trip",
       miles: 3950,
       legs: 2,
       restSummary: "6 days home resting",
       exhaustionGap: 81,
-      happyML: -168,
-      happySpread: 1.5,
-      happySpreadOdds: -195
+      happyML: -168
     },
     {
       sport: "basketball",
       matchup: "✈️ Knicks (+130) @ 😊 Nuggets (-152)",
-      spreadMatchup: "✈️ Knicks (+3.0 / -108) @ 😊 Nuggets (-3.0 / -112)",
       routeNote: "High altitude multi-stop trip",
       miles: 2890,
       legs: 2,
       restSummary: "4 days home resting",
       exhaustionGap: 76,
-      happyML: -152,
-      happySpread: -3.0,
-      happySpreadOdds: -112
+      happyML: -152
     }
   ];
 
@@ -192,53 +181,389 @@
       date: "2026-11-25",
       sport: "basketball",
       matchup: "✈️ Lakers (-144) @ 😊 Suns (+122)",
-      spreadMatchup: "✈️ Lakers (-2.5 / -110) @ 😊 Suns (+2.5 / -110)",
       legs: 4,
       exhaustionGap: 75,
       happyML: 122,
-      spreadLine: 2.5,
-      happySpreadOdds: -110,
       status: "won",
-      spreadStatus: "won",
       finalScore: "Lakers 104 - Suns 111",
-      netProfit: 122.0,
-      spreadProfit: 90.91
+      netProfit: 122.0
     },
     {
       date: "2026-11-24",
       sport: "hockey",
       matchup: "✈️ Flames (+130) @ 😊 Ducks (-155)",
-      spreadMatchup: "✈️ Flames (+1.5 / -190) @ 😊 Ducks (-1.5 / +160)",
       legs: 2,
       exhaustionGap: 73,
       happyML: -155,
-      spreadLine: -1.5,
-      happySpreadOdds: 160,
       status: "lost",
-      spreadStatus: "lost",
       finalScore: "Flames 4 - Ducks 2",
-      netProfit: -100.0,
-      spreadProfit: -100.0
+      netProfit: -100.0
     }
   ];
 
   var activeTravelData = fallbackData.slice();
   var activeHistoryData = fallbackHistory.slice();
 
-  function getWinProb(odds) {
-    var num = parseFloat(odds) || 0;
+  function getWinProb(ml) {
+    var num = parseFloat(ml) || 0;
     if (num < 0) return Math.abs(num) / (Math.abs(num) + 100);
     if (num > 0) return 100 / (num + 100);
     return 0.50;
   }
 
-  function calcProfit(odds, stake) {
-    var num = parseFloat(odds) || 0;
+  function calcProfit(ml, stake) {
+    var num = parseFloat(ml) || 0;
     if (num > 0) return stake * (num / 100);
     if (num < 0) return stake * (100 / Math.abs(num));
     return 0;
   }
 
-  function getActiveOdds(item, isSpread) {
-    if (isSpread) {
-      return item.happySpread
+  function getRestEdge(item) {
+    return item.exhaustionGap * getWinProb(item.happyML);
+  }
+
+  function getRoiPct(item) {
+    var num = parseFloat(item.happyML) || 0;
+    if (num > 0) return num;
+    if (num < 0) return (100 / Math.abs(num)) * 100;
+    return 0;
+  }
+
+  function formatColoredMatchup(matchupStr) {
+    var parts = matchupStr.split(" @ ");
+    if (parts.length === 2) {
+      var awayTeam = '<span style="color: #f87171; font-weight: 600;">' + parts[0] + '</span>';
+      var homeTeam = '<span style="color: #4ade80; font-weight: 600;">' + parts[1] + '</span>';
+      return awayTeam + ' @ ' + homeTeam;
+    }
+    return '<span style="color: #f8fafc; font-weight: 600;">' + matchupStr + '</span>';
+  }
+
+  function updateLiveSortIndicators() {
+    var inds = document.querySelectorAll(".ht-sort-ind");
+    for (var i = 0; i < inds.length; i++) {
+      var col = inds[i].getAttribute("data-col");
+      if (col === liveSortCol) {
+        inds[i].textContent = liveSortDir === "desc" ? "▼" : "▲";
+        inds[i].style.color = "#fbbf24";
+      } else {
+        inds[i].textContent = "";
+        inds[i].style.color = "#94a3b8";
+      }
+    }
+    var sel = document.getElementById("ht-sort-select");
+    if (sel && ["edge", "legs", "miles", "roi"].indexOf(liveSortCol) !== -1) {
+      sel.value = liveSortCol;
+    }
+  }
+
+  function updateHistSortIndicators() {
+    var inds = document.querySelectorAll(".ht-hsort-ind");
+    for (var i = 0; i < inds.length; i++) {
+      var col = inds[i].getAttribute("data-hcol");
+      if (col === histSortCol) {
+        inds[i].textContent = histSortDir === "desc" ? "▼" : "▲";
+        inds[i].style.color = "#fbbf24";
+      } else {
+        inds[i].textContent = "";
+        inds[i].style.color = "#94a3b8";
+      }
+    }
+  }
+
+  function handleLiveHeaderClick(col) {
+    if (liveSortCol === col) {
+      liveSortDir = liveSortDir === "desc" ? "asc" : "desc";
+    } else {
+      liveSortCol = col;
+      liveSortDir = col === "matchup" ? "asc" : "desc";
+    }
+    renderHappyTable();
+  }
+
+  function handleHistHeaderClick(col) {
+    if (histSortCol === col) {
+      histSortDir = histSortDir === "desc" ? "asc" : "desc";
+    } else {
+      histSortCol = col;
+      histSortDir = (col === "matchup" || col === "score" || col === "status") ? "asc" : "desc";
+    }
+    renderHistoryTable();
+  }
+
+  function setActiveTab(tabName) {
+    currentTab = tabName;
+    var liveBtn = document.getElementById("ht-tab-live");
+    var histBtn = document.getElementById("ht-tab-history");
+    var livePanel = document.getElementById("ht-live-panel");
+    var histPanel = document.getElementById("ht-history-panel");
+    var sortWrap = document.getElementById("ht-live-sort-wrap");
+
+    if (tabName === "live") {
+      liveBtn.style.background = "#4ade80";
+      liveBtn.style.color = "#0f172a";
+      liveBtn.style.border = "none";
+      histBtn.style.background = "#1e293b";
+      histBtn.style.color = "#cbd5e1";
+      histBtn.style.border = "1px solid #334155";
+      livePanel.style.display = "block";
+      histPanel.style.display = "none";
+      sortWrap.style.display = "block";
+      renderHappyTable();
+    } else {
+      histBtn.style.background = "#4ade80";
+      histBtn.style.color = "#0f172a";
+      histBtn.style.border = "none";
+      liveBtn.style.background = "#1e293b";
+      liveBtn.style.color = "#cbd5e1";
+      liveBtn.style.border = "1px solid #334155";
+      livePanel.style.display = "none";
+      histPanel.style.display = "block";
+      sortWrap.style.display = "none";
+      renderHistoryTable();
+    }
+  }
+
+  function renderHappyTable() {
+    var tbody = document.getElementById("ht-table-rows");
+    if (!tbody) return;
+
+    var stake = parseFloat(document.getElementById("ht-wager-input").value) || 100;
+    var sport = document.getElementById("ht-sport-select").value;
+    var dirMult = liveSortDir === "asc" ? 1 : -1;
+
+    var items = activeTravelData.filter(function(g) {
+      return sport === "all" || g.sport === sport;
+    });
+
+    items.sort(function(a, b) {
+      var cmp = 0;
+      if (liveSortCol === "matchup") {
+        cmp = String(a.matchup || "").localeCompare(String(b.matchup || ""));
+        return dirMult === 1 ? cmp : -cmp;
+      } else if (liveSortCol === "legs") {
+        cmp = (a.legs || 1) - (b.legs || 1);
+      } else if (liveSortCol === "miles") {
+        cmp = (a.miles || 0) - (b.miles || 0);
+      } else if (liveSortCol === "gap") {
+        cmp = (a.exhaustionGap || 0) - (b.exhaustionGap || 0);
+      } else if (liveSortCol === "roi") {
+        cmp = getRoiPct(a) - getRoiPct(b);
+      } else {
+        cmp = getRestEdge(a) - getRestEdge(b);
+      }
+      return cmp * dirMult;
+    });
+
+    updateLiveSortIndicators();
+
+    if (!items.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px; color: #94a3b8;">No travel mismatches found for this sport.</td></tr>';
+      return;
+    }
+
+    var html = "";
+    for (var i = 0; i < items.length; i++) {
+      var g = items[i];
+      var edge = getRestEdge(g).toFixed(1);
+      var profit = calcProfit(g.happyML, stake);
+      var roi = ((profit / stake) * 100).toFixed(1);
+      var legCount = g.legs !== undefined ? g.legs : 1;
+
+      var cleanQuery = g.matchup.replace(/[✈️😊]/g, "").replace(/\([^)]+\)/g, "").trim();
+      var googleSearchUrl = "https://www.google.com/search?q=" + encodeURIComponent(cleanQuery + " game score schedule");
+      var coloredTeamsHtml = formatColoredMatchup(g.matchup);
+
+      html += '<tr style="border-bottom: 1px solid #1e293b;">' +
+        '<td style="padding: 12px 10px;">' +
+          '<a href="' + googleSearchUrl + '" target="_blank" style="text-decoration: none; display: block;" title="Click to view Google match search">' +
+            '<div style="font-size: 14px;">' + coloredTeamsHtml + '</div>' +
+          '</a>' +
+          '<div style="font-size: 11px; color: #94a3b8; margin-top: 3px;">' + g.routeNote + '</div>' +
+        '</td>' +
+        '<td style="padding: 12px 10px; text-align: center;">' +
+          '<span style="background: rgba(56, 189, 248, 0.12); color: #38bdf8; padding: 4px 10px; border-radius: 6px; font-weight: bold; font-size: 13px;">' + legCount + ' leg' + (legCount === 1 ? '' : 's') + '</span>' +
+        '</td>' +
+        '<td style="padding: 12px 10px; text-align: center;">' +
+          '<div style="color: #93c5fd; font-weight: 600;">' + g.miles.toLocaleString() + ' mi</div>' +
+          '<div style="font-size: 11px; color: #94a3b8;">' + (g.restSummary || "Home resting") + '</div>' +
+        '</td>' +
+        '<td style="padding: 12px 10px; text-align: center; color: #f87171; font-weight: bold;">+' + g.exhaustionGap + ' pts</td>' +
+        '<td style="padding: 12px 10px; text-align: center; color: #fbbf24; font-weight: bold; background: rgba(251, 191, 36, 0.08); border-radius: 6px;">' + edge + '</td>' +
+        '<td style="padding: 12px 10px; text-align: right; color: #4ade80; font-weight: bold;">+$' + profit.toFixed(2) +
+          ' <span style="font-size: 11px; color: #86efac;">(' + roi + '%)</span></td>' +
+      '</tr>';
+    }
+    tbody.innerHTML = html;
+  }
+
+  function renderHistoryTable() {
+    var summaryEl = document.getElementById("ht-history-summary");
+    var tbody = document.getElementById("ht-history-rows");
+    if (!summaryEl || !tbody) return;
+
+    var stake = parseFloat(document.getElementById("ht-wager-input").value) || 100;
+    var scale = stake / 100.0;
+    var sport = document.getElementById("ht-sport-select").value;
+    var dirMult = histSortDir === "asc" ? 1 : -1;
+
+    var filtered = activeHistoryData.filter(function(h) {
+      return sport === "all" || h.sport === sport;
+    });
+
+    var wins = 0, losses = 0, gradedCount = 0, totalNet = 0;
+    for (var i = 0; i < filtered.length; i++) {
+      var st = filtered[i].status || "pending";
+      if (st === "won") {
+        wins++;
+        gradedCount++;
+        totalNet += (parseFloat(filtered[i].netProfit) || 0) * scale;
+      } else if (st === "lost") {
+        losses++;
+        gradedCount++;
+        totalNet += (parseFloat(filtered[i].netProfit) || -100) * scale;
+      }
+    }
+
+    var entries = filtered.slice().sort(function(a, b) {
+      var cmp = 0;
+      if (histSortCol === "date") {
+        cmp = String(a.date || "").localeCompare(String(b.date || ""));
+      } else if (histSortCol === "matchup") {
+        cmp = String(a.matchup || "").localeCompare(String(b.matchup || ""));
+      } else if (histSortCol === "legs") {
+        cmp = ((a.legs || 1) * 1000 + (a.exhaustionGap || 0)) - ((b.legs || 1) * 1000 + (b.exhaustionGap || 0));
+      } else if (histSortCol === "score") {
+        cmp = String(a.finalScore || "").localeCompare(String(b.finalScore || ""));
+      } else if (histSortCol === "status") {
+        cmp = String(a.status || "").localeCompare(String(b.status || ""));
+      } else if (histSortCol === "pnl") {
+        cmp = (parseFloat(a.netProfit) || 0) - (parseFloat(b.netProfit) || 0);
+      }
+      return cmp * dirMult;
+    });
+
+    updateHistSortIndicators();
+
+    var winRate = gradedCount > 0 ? ((wins / gradedCount) * 100).toFixed(1) : "0.0";
+    var totalRisked = gradedCount * stake;
+    var roiPct = totalRisked > 0 ? ((totalNet / totalRisked) * 100).toFixed(1) : "0.0";
+    var netColor = totalNet >= 0 ? "#4ade80" : "#f87171";
+    var netPrefix = totalNet >= 0 ? "+$" : "-$";
+
+    summaryEl.innerHTML =
+      '<div style="background:#1e293b;padding:12px;border-radius:8px;">' +
+        '<div style="font-size:11px;color:#94a3b8;">Record (W-L)</div>' +
+        '<div style="font-size:18px;font-weight:700;color:#f8fafc;">' + wins + ' - ' + losses + ' <span style="font-size:12px;color:#94a3b8;">(' + winRate + '%)</span></div>' +
+      '</div>' +
+      '<div style="background:#1e293b;padding:12px;border-radius:8px;">' +
+        '<div style="font-size:11px;color:#94a3b8;">Net Profit</div>' +
+        '<div style="font-size:18px;font-weight:700;color:' + netColor + ';">' + netPrefix + Math.abs(totalNet).toFixed(2) + '</div>' +
+      '</div>' +
+      '<div style="background:#1e293b;padding:12px;border-radius:8px;">' +
+        '<div style="font-size:11px;color:#94a3b8;">Historical ROI</div>' +
+        '<div style="font-size:18px;font-weight:700;color:#fbbf24;">' + roiPct + '%</div>' +
+      '</div>';
+
+    if (!entries.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:20px;color:#94a3b8;">No historical evaluations recorded yet for this sport.</td></tr>';
+      return;
+    }
+
+    var rowsHtml = "";
+    for (var j = 0; j < entries.length; j++) {
+      var h = entries[j];
+      var hStatus = h.status || "pending";
+      var badgeBg = hStatus === "won" ? "rgba(74,222,128,0.15)" : (hStatus === "lost" ? "rgba(248,113,113,0.15)" : "rgba(148,163,184,0.15)");
+      var badgeColor = hStatus === "won" ? "#4ade80" : (hStatus === "lost" ? "#f87171" : "#cbd5e1");
+      var badgeText = hStatus.toUpperCase();
+      var scaledPnL = (parseFloat(h.netProfit) || 0) * scale;
+      var pnlText = hStatus === "pending" ? "—" : ((scaledPnL >= 0 ? "+$" : "-$") + Math.abs(scaledPnL).toFixed(2));
+      var pnlColor = hStatus === "pending" ? "#94a3b8" : (scaledPnL >= 0 ? "#4ade80" : "#f87171");
+
+      rowsHtml += '<tr style="border-bottom:1px solid #1e293b;">' +
+        '<td style="padding:10px;color:#94a3b8;font-size:12px;white-space:nowrap;">' + (h.date || "") + '</td>' +
+        '<td style="padding:10px;">' + formatColoredMatchup(h.matchup || "") + '</td>' +
+        '<td style="padding:10px;text-align:center;color:#93c5fd;font-size:12px;">' + (h.legs || 1) + ' leg / +' + (h.exhaustionGap || 0) + '</td>' +
+        '<td style="padding:10px;text-align:center;color:#cbd5e1;font-size:12px;">' + (h.finalScore || "Pending") + '</td>' +
+        '<td style="padding:10px;text-align:center;"><span style="background:' + badgeBg + ';color:' + badgeColor + ';padding:3px 8px;border-radius:5px;font-size:11px;font-weight:700;">' + badgeText + '</span></td>' +
+        '<td style="padding:10px;text-align:right;font-weight:700;color:' + pnlColor + ';">' + pnlText + '</td>' +
+      '</tr>';
+    }
+    tbody.innerHTML = rowsHtml;
+  }
+
+  function initHappyApp() {
+    var statusEl = document.getElementById("ht-status-text");
+    var liveFetch = fetch(TRAVEL_FEED_URL + "?t=" + new Date().getTime())
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (Array.isArray(d) && d.length) {
+          activeTravelData = d;
+          return true;
+        }
+        return false;
+      })
+      .catch(function() { return false; });
+
+    var histFetch = fetch(HISTORY_FEED_URL + "?t=" + new Date().getTime())
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (Array.isArray(d) && d.length) {
+          activeHistoryData = d;
+          return true;
+        }
+        return false;
+      })
+      .catch(function() { return false; });
+
+    Promise.all([liveFetch, histFetch]).then(function(flags) {
+      if (statusEl && (flags[0] || flags[1])) {
+        statusEl.innerText = "Live Travel & History Synced";
+      }
+      if (currentTab === "live") {
+        renderHappyTable();
+      } else {
+        renderHistoryTable();
+      }
+    });
+  }
+
+  document.getElementById("ht-tab-live").addEventListener("click", function() { setActiveTab("live"); });
+  document.getElementById("ht-tab-history").addEventListener("click", function() { setActiveTab("history"); });
+  document.getElementById("ht-sport-select").addEventListener("change", function() {
+    if (currentTab === "live") renderHappyTable(); else renderHistoryTable();
+  });
+  document.getElementById("ht-wager-input").addEventListener("input", function() {
+    if (currentTab === "live") renderHappyTable(); else renderHistoryTable();
+  });
+  document.getElementById("ht-sort-select").addEventListener("change", function() {
+    liveSortCol = this.value;
+    liveSortDir = "desc";
+    renderHappyTable();
+  });
+
+  var liveHeaders = document.querySelectorAll(".ht-live-th");
+  for (var i = 0; i < liveHeaders.length; i++) {
+    (function(th) {
+      th.addEventListener("click", function() {
+        handleLiveHeaderClick(th.getAttribute("data-sort"));
+      });
+    })(liveHeaders[i]);
+  }
+
+  var histHeaders = document.querySelectorAll(".ht-hist-th");
+  for (var j = 0; j < histHeaders.length; j++) {
+    (function(th) {
+      th.addEventListener("click", function() {
+        handleHistHeaderClick(th.getAttribute("data-hsort"));
+      });
+    })(histHeaders[j]);
+  }
+
+  window.addEventListener("DOMContentLoaded", initHappyApp);
+  setTimeout(initHappyApp, 100);
+})();
+</script>
+</body>
+</html>
